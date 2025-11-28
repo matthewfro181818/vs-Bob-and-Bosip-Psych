@@ -15,6 +15,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.animation.FlxAnimationController;
 import flixel.addons.effects.FlxTrail;
 import flixel.graphics.frames.FlxAtlasFrames;
+import flixel.math.FlxMath;
 import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
@@ -7083,6 +7084,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
