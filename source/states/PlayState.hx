@@ -3279,24 +3279,25 @@ class PlayState extends MusicBeatState {
 		unspawnNotes.sort(sortByShit);
 
 		generatedMusic = true;
+
+		var songData = SONG;
+
+		Conductor.bpm = songData.bpm;
+		curSong = songData.song;
+		if (secondaryVocals != null) {
+			secondaryVocals.destroy();
+		}
+		if (vocals != null) {
+			vocals.destroy();
+		}
+		if (opponentVocals != null) {
+			opponentVocals.destroy();
+		}
+		secondaryVocals = new FlxSound();
+		vocals = new FlxSound();
+		opponentVocals = new FlxSound();
 	}
 
-	var songData = SONG;
-
-	Conductor.bpm = songData.bpm;
-	curSong = songData.song;
-	if (secondaryVocals != null) {
-		secondaryVocals.destroy();
-	}
-	if (vocals != null) {
-		vocals.destroy();
-	}
-	if (opponentVocals != null) {
-		opponentVocals.destroy();
-	}
-	secondaryVocals = new FlxSound();
-	vocals = new FlxSound();
-	opponentVocals = new FlxSound();
 	function loadEXVocals(songName:String):Void {
 		vocals = new FlxSound();
 		vocals.loadEmbedded(Paths.voicesEX(songName));
