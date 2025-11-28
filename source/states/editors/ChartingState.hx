@@ -602,6 +602,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			player1: 'bf',
 			player2: 'dad',
 			gfVersion: 'gf',
+			noteStyle: 'normal',
 			stage: 'stage',
 			format: 'psych_v1'
 		};
@@ -643,6 +644,12 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		girlfriendDropDown.selectedLabel = PlayState.SONG.gfVersion;
 		stageDropDown.selectedLabel = PlayState.SONG.stage;
 		StageData.loadDirectory(PlayState.SONG);
+		
+		var noteStyleDropDown = new FlxUIDropDownMenu(10, 300, FlxUIDropDownMenu.makeStrIdLabelArray(noteStyles, true), function(noteStyle:String)
+			{
+				_song.noteStyle = noteStyles[Std.parseInt(noteStyle)];
+			});
+		noteStyleDropDown.selectedLabel = _song.noteStyle;
 
 		// DATA TAB
 		gameOverCharDropDown.selectedLabel = PlayState.SONG.gameOverChar;
@@ -3301,6 +3308,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(audioOffsetStepper);
 
 		//dropdowns
+		tab_group.add(noteStyleDropDown);
+		tab_group.add(noteStyleLabel);
 		tab_group.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 80, 'Stage:'));
 		tab_group.add(new FlxText(playerDropDown.x, playerDropDown.y - 15, 80, 'Player:'));
 		tab_group.add(new FlxText(opponentDropDown.x, opponentDropDown.y - 15, 80, 'Opponent:'));
@@ -5297,3 +5306,4 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		#end
 	}
 }
+
