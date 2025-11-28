@@ -1,5 +1,6 @@
 package states;
 
+import WiggleEffect.WiggleEffectType;
 import backend.Highscore;
 import backend.StageData;
 import backend.WeekData;
@@ -29,6 +30,7 @@ import substates.PauseSubState;
 import substates.GameOverSubstate;
 #if !flash
 import openfl.filters.ShaderFilter;
+import openfl.filters.BitmapFilter;
 #end
 import shaders.ErrorHandledShader;
 import objects.VideoSprite;
@@ -169,6 +171,7 @@ class PlayState extends MusicBeatState {
 	public static var sicks:Int = 0;
 
 	var halloweenBG:FlxSprite;
+	var isHalloween:Bool = false;
 
 	var pc:Character;
 
@@ -197,11 +200,33 @@ class PlayState extends MusicBeatState {
 
 	public static var dad2SONG:SwagSong;
 	private var dad2Notes:FlxTypedGroup<Note>;
+	var lightsTimer:Array<Int> = [200, 700];
 	
 	var daStrumTime:Float = 0;
 
+	var healthDraining:Bool = false;
+	
+	var filters:Array<BitmapFilter> = [];
+
+	private var executeModchart = false;
+	var walked:Bool = false;
+	var walkingRight:Bool = true;
+	var stopWalkTimer:Int = 0;
+
+	var wiggleShit:WiggleEffect = new WiggleEffect();
+
+	var splitMode:Bool = false;
+	var splitSoftMode:Bool = false;
+	var splitCamMode:Bool = false;
+	var splitExtraZoom:Bool = false;
+	var coolerText:Bool = false;
+
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
+
+	var theEntireFuckingStage:FlxTypedGroup<FlxSprite>;
+
+	var bgGirls:BackgroundGirls;
 
 	public static var ratingStuff:Array<Dynamic> = [
 		['You Suck!', 0.2], // From 0% to 19%
@@ -2979,6 +3004,163 @@ class PlayState extends MusicBeatState {
 
 	public function skipDialogue() {
 		callOnScripts('onSkipDialogue', [dialogueCount]);
+	}
+
+
+	function endanimation():Void {
+		dad.visible = false;
+		FlxTween.tween(camHUD, {alpha: 0}, 1, {
+			ease: FlxEase.quadInOut,
+		});
+		camZooming = false;
+		//resyncingVocals = false;
+		canPause = false;
+		//FlxG.sound.music.stop();
+		//vocals.stop();
+		useCamChange = false;
+		switch(SONG.stage)
+		{
+			case 'day': 
+				var dying:FlxSprite = new FlxSprite(dad.x, dad.y);
+				dying.antialiasing = true;
+				dying.frames = Paths.getSparrowAtlas('day/Tiredbob', 'shared');
+				dying.animation.addByPrefix('idle', 'Bob0', 24, true);
+				dying.animation.play('idle');
+				dying.scale.set(0.6,0.6);
+				dying.y -= 100;
+				dying.x -= 100;
+				add(dying);
+				FlxG.sound.play(Paths.sound('voiceline/mike_died', 'shared'), 1);
+				/*new FlxTimer().start(5, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});*/
+			case 'sunset':
+				var gud:FlxSprite = new FlxSprite(dad.x, dad.y);
+				gud.antialiasing = true;
+				gud.frames = Paths.getSparrowAtlas('sunset/ThumbupBosip', 'shared');
+				gud.animation.addByPrefix('idle', 'Bullshit0', 24, false);
+				gud.animation.play('idle');
+				gud.y -= 300;
+				gud.x -= 200;
+				gud.scale.set(0.6,0.6);
+				FlxG.sound.play(Paths.sound('voiceline/bosip_good_job', 'shared'), 1);
+				add(gud);
+				/*new FlxTimer().start(8, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});
+				gud.animation.finishCallback = function(pog:String) {LoadingState.loadAndSwitchState(new DesktopState());}*/
+			case 'night':
+				var ded:FlxSprite = new FlxSprite(dad.x, dad.y);
+				ded.antialiasing = true;
+				ded.frames = Paths.getSparrowAtlas('night/amor_falling_lol', 'shared');
+				ded.animation.addByPrefix('idle', 'amor_falling_lol instance 1', 24, false);
+				ded.animation.play('idle');
+				FlxG.sound.play(Paths.sound('voiceline/carPass1', 'shared'), 1);
+				ded.y -= 100;
+				ded.x -= 100;
+				add(ded);
+				//ded.animation.finishCallback = function(pog:String) {LoadingState.loadAndSwitchState(new DesktopState());}
+			case 'ITB-Party':
+				var bird:FlxSprite = new FlxSprite(dad.x, dad.y);
+				bird.antialiasing = true;
+				bird.frames = Paths.getSparrowAtlas('ITB/party/bluEX_ENDING', 'shared');
+				bird.animation.addByPrefix('idle', 'bluEX_ending', 24, false);
+				bird.animation.play('idle');
+				FlxG.sound.play(Paths.sound('voiceline/blu_ending_animation', 'shared'), 1);
+				add(bird);
+				/*new FlxTimer().start(3, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});
+				bird.animation.finishCallback = function(pog:String) {LoadingState.loadAndSwitchState(new DesktopState());}*/
+			case 'ITB-Hell':
+				dad2.visible = false;
+				
+				var dog:FlxSprite = new FlxSprite(dad2.x, dad.y);
+				dog.antialiasing = true;
+				dog.frames = Paths.getSparrowAtlas('ITB/hell/Jghostending', 'shared');
+				dog.animation.addByPrefix('idle', 'Jghostending', 24, false);
+				dog.animation.play('idle');
+				FlxG.sound.play(Paths.sound('voiceline/Youdidfine', 'shared'), 0.7);
+				dog.x -= 100;
+				add(dog);
+				/*new FlxTimer().start(3, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});
+				dog.animation.finishCallback = function(pog:String) {LoadingState.loadAndSwitchState(new DesktopState());}*/
+			case 'ITB-Anime':
+				var maid:FlxSprite = new FlxSprite(dad.x, 230);
+				maid.antialiasing = true;
+				maid.frames = Paths.getSparrowAtlas('ITB/anime/MiniEndingAnim', 'shared');
+				maid.animation.addByPrefix('idle', 'Mini-ending0', 24, false);
+				maid.animation.play('idle');
+				FlxG.sound.play(Paths.sound('voiceline/mini_clapping', 'shared'), 1);
+				//maid.y += 100;
+				add(maid);
+				/*new FlxTimer().start(8, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});
+				maid.animation.finishCallback = function(pog:String) {LoadingState.loadAndSwitchState(new DesktopState());}*/
+			case 'ITB-Glitch':
+				dad2.visible = false;
+				
+				var angi:FlxSprite = new FlxSprite(dad.x, dad.y);
+				angi.antialiasing = true;
+				angi.frames = Paths.getSparrowAtlas('ITB/glitch/intertwinedEX_ENDING', 'shared');
+				angi.animation.addByIndices('pick', 'IntertwinedEX_ENDING0', [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25], "", 24, false);
+				
+				angi.animation.addByIndices('yell', 'IntertwinedEX_ENDING0', [26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46], "", 24, true);
+				angi.animation.addByIndices('idle', 'IntertwinedEX_ENDING0', [0], "", 24, false);
+				FlxG.sound.play(Paths.sound('voiceline/ash_cerb', 'shared'), 1);
+
+				add(angi);
+				angi.animation.play('idle');
+				new FlxTimer().start(1, function(tmr:FlxTimer)
+					{
+						//angi.animation.play('pick');
+						//new FlxTimer().start(1.2, function(tmr:FlxTimer)
+						//	{
+						angi.animation.play('pick');
+								
+						//	});
+					});
+				new FlxTimer().start(2, function(tmr:FlxTimer)
+					{
+						//angi.animation.play('pick');
+						//new FlxTimer().start(1.2, function(tmr:FlxTimer)
+						//	{
+								angi.animation.play('yell');
+								
+						//	});
+					});
+				/*new FlxTimer().start(6, function(tmr:FlxTimer)
+					{
+						if (PlayState.desktopMode)
+							LoadingState.loadAndSwitchState(new DesktopState());
+						else
+							LoadingState.loadAndSwitchState(new MainMenuState());
+					});*/
+				//angi.animation.finishCallback = function(pog:String) {FlxG.switchState(new DesktopState());}
+		}
 	}
 
 	function nooooron():Void {
@@ -6402,7 +6584,7 @@ override function beatHit() {
 			if (storyDifficulty != 3) {
 				if (curSong.toLowerCase() == 'jump-in' && curBeat == 4 || curSong.toLowerCase() == 'swing' && curBeat == 64 || curSong.toLowerCase() == 'swing' && curBeat == 224)
 				{
-					FlxG.sound.play(Paths.sound('carPass1', 'shared'), 0.7);
+					FlxG.sound.play(Paths.sound('carPass1'), 0.7);
 					new FlxTimer().start(1.3, function(tmr:FlxTimer)
 					{
 						phillyTrain.x = 2000;
@@ -6418,7 +6600,7 @@ override function beatHit() {
 				}
 				if (curSong.toLowerCase() == 'jump-in' && curBeat == 68 || curSong.toLowerCase() == 'swing' && curBeat == 144)
 				{
-					FlxG.sound.play(Paths.sound('carPass1', 'shared'), 0.7);
+					FlxG.sound.play(Paths.sound('carPass1'), 0.7);
 					new FlxTimer().start(1.3, function(tmr:FlxTimer)
 					{
 						phillyTrain.x = -2000;
@@ -7084,6 +7266,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
