@@ -6716,5 +6716,3 @@ function back(characters:String):Void {
 	}
 }
 }
-
-
