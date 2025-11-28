@@ -36,6 +36,68 @@ import crowplexus.hscript.Printer;
 #include <thread>
 ')
 #end
+class LoadingsState extends MusicBeatSubstate
+{
+	public var instantAlpha:Bool = false;
+	var loadingart:FlxSprite;
+	override function create()
+	{
+		FlxG.camera.zoom = 0;
+		loadingart = new FlxSprite(0, 0).loadGraphic(Paths.image('loading/' + FlxG.random.int(0, 58)));
+		loadingart.setGraphicSize(-1, FlxG.height);
+		loadingart.updateHitbox();
+		loadingart.alpha = 0.1;
+		loadingart.scrollFactor.set(0, 0);
+		loadingart.screenCenter();
+		loadingart.antialiasing = true;
+		add(loadingart);
+
+		add(loadingart);
+		trace('IT LOADING!');
+
+		var blackBar = new FlxSprite(0, 573).loadGraphic(Paths.image('loading/extra/blackbar'));
+		blackBar.antialiasing = true;
+		add(blackBar);
+
+		var tipPrefix:String = 'funFact';
+		var tipMax:Int = 19;
+		
+		if (FlxG.random.bool(50)) {
+			tipPrefix = 'proTip';
+			tipMax = 11;
+		}
+
+		var tip:FlxSprite = new FlxSprite(0, 590).loadGraphic(Paths.image('loading/extra/' + tipPrefix + '/' + FlxG.random.int(1, tipMax)));
+		if (FlxG.random.bool(0.5))
+			tip.loadGraphic(Paths.image('loading/extra/proTip/path/light'));
+		tip.screenCenter(XY);
+		tip.y += 299;
+		add(tip);
+		tip.antialiasing = true;
+
+
+		var theText:FlxSprite = new FlxSprite(0, 549).loadGraphic(Paths.image('loading/extra/' + tipPrefix + '/text'));
+		add(theText);
+		theText.screenCenter(X);
+		theText.antialiasing = true;
+
+		var bar:FlxSprite = new FlxSprite(0, 597).loadGraphic(Paths.image('loading/extra/bar'));
+		bar.screenCenter(X);
+		add(bar);
+		bar.antialiasing = true;
+		super.create();
+	}
+
+	override function update(elapsed:Float)
+	{
+		super.update(elapsed);
+		loadingart.alpha += elapsed;
+		if (instantAlpha)
+			loadingart.alpha = 1;
+	}
+
+}
+
 class LoadingState extends MusicBeatState
 {
 	public static var loaded:Int = 0;
@@ -833,9 +895,6 @@ class LoadingState extends MusicBeatState
 	}
 	
 	#if cpp
-	@:functionCode('
-		return std::thread::hardware_concurrency();
-    	')
 	@:noCompletion
     	public static function getCPUThreadsCount():Int
     	{

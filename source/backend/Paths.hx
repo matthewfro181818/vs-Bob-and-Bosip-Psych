@@ -211,8 +211,46 @@ class Paths
 	inline static public function music(key:String, ?modsAllowed:Bool = true):Sound
 		return returnSound('music/$key', modsAllowed);
 
-	inline static public function inst(song:String, ?modsAllowed:Bool = true):Sound
-		return returnSound('${formatToSongPath(song)}/Inst', 'songs', modsAllowed);
+
+	inline static public function inst(song:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'songs:assets/songs/${songLowercase}/Inst.$SOUND_EXT';
+	}
+
+	inline static public function instEX(song:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'songs:assets/songs/${songLowercase}/InstEX.$SOUND_EXT';
+	}
+
+	inline static public function instEXcheck(song:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'assets/songs/${songLowercase}/InstEX.$SOUND_EXT';
+	}
+
+	inline static public function instcheck(song:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'assets/songs/${songLowercase}/Inst.$SOUND_EXT';
+	}
 
 	inline static public function voices(song:String, postfix:String = null, ?modsAllowed:Bool = true):Sound
 	{
@@ -221,6 +259,37 @@ class Paths
 		//trace('songKey test: $songKey');
 		return returnSound(songKey, 'songs', modsAllowed, false);
 	}
+
+	inline static public function voicesEX(song:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'songs:assets/songs/${songLowercase}/VoicesEX.$SOUND_EXT';
+	}
+
+	inline static public function voicesEXMenu(song:String, char:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'songs:assets/songs/${songLowercase}/menuEX/' + char + '.$SOUND_EXT';
+	}
+
+	inline static public function voicesEXcharacter(song:String, char:String)
+	{
+		var songLowercase = StringTools.replace(song, " ", "-").toLowerCase();
+			switch (songLowercase) {
+				case 'dad-battle': songLowercase = 'dadbattle';
+				case 'philly-nice': songLowercase = 'philly';
+			}
+		return 'songs:assets/songs/${songLowercase}/VoicesEX' + char + '.$SOUND_EXT';
+	}
+
 
 	inline static public function soundRandom(key:String, min:Int, max:Int, ?modsAllowed:Bool = true)
 		return sound(key + FlxG.random.int(min, max), modsAllowed);
@@ -382,6 +451,21 @@ class Paths
 		return FlxAtlasFrames.fromSparrow(imageLoaded, getPath(Language.getFileTranslation('images/$key') + '.xml', TEXT, parentFolder));
 		#end
 	}
+	
+	inline static public function getSparrowAtlasFromCache(key:String, ?parentFolder:String = null, ?allowGPU:Bool = true):FlxAtlasFrames
+	{
+		if(key.contains('psychic')) trace(key, parentFolder, allowGPU);
+		var imageLoaded:FlxGraphic = image(key, parentFolder, allowGPU);
+		#if MODS_ALLOWED
+		var xmlExists:Bool = false;
+
+		var xml:String = modsXml(key);
+		if(FileSystem.exists(xml)) xmlExists = true;
+
+		return FlxAtlasFrames.fromSparrow(imageLoaded, (xmlExists ? File.getContent(xml) : getPath(Language.getFileTranslation('images/$key') + '.xml', TEXT, parentFolder)));
+		#else
+		return FlxAtlasFrames.fromSparrow(imageLoaded, getPath(Language.getFileTranslation('images/$key') + '.xml', TEXT, parentFolder));
+		#end	}
 
 	inline static public function getPackerAtlas(key:String, ?parentFolder:String = null, ?allowGPU:Bool = true):FlxAtlasFrames
 	{

@@ -34,6 +34,7 @@ typedef SwagSong =
 
 typedef SwagSection =
 {
+        var lengthInSteps:Int;
 	var sectionNotes:Array<Dynamic>;
 	var sectionBeats:Float;
 	var mustHitSection:Bool;

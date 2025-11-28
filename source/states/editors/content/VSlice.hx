@@ -463,6 +463,7 @@ class VSlice
 			sectionNotes: [],
 			sectionBeats: 4,
 			mustHitSection: true,
+                        lengthInSteps: 0,
 		};
 	}
 

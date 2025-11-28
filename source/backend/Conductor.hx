@@ -13,14 +13,16 @@ typedef BPMChangeEvent =
 
 class Conductor
 {
-	public static var bpm(default, set):Float = 100;
+	public static var bpm:Float = 100;
 	public static var crochet:Float = ((60 / bpm) * 1000); // beats in milliseconds
 	public static var stepCrochet:Float = crochet / 4; // steps in milliseconds
-	public static var songPosition:Float = 0;
+	public static var songPosition:Float;
+	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
-	//public static var safeFrames:Int = 10;
-	public static var safeZoneOffset:Float = 0; // is calculated in create(), is safeFrames in milliseconds
+	public static var safeFrames:Int = 10;
+	public static var safeZoneOffset:Float = Math.floor((safeFrames / 60) * 1000); // is calculated in create(), is safeFrames in milliseconds
+	public static var timeScale:Float = Conductor.safeZoneOffset / 166;
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
@@ -95,6 +97,17 @@ class Conductor
 		return Math.floor(getStepRounded(time)/4);
 	}
 
+	public function new()
+	{
+	}
+
+	public static function recalculateTimings()
+	{
+		Conductor.safeFrames = FlxG.save.data.frames;
+		Conductor.safeZoneOffset = Math.floor((Conductor.safeFrames / 60) * 1000);
+		Conductor.timeScale = Conductor.safeZoneOffset / 166;
+	}
+
 	public static function mapBPMChanges(song:SwagSong)
 	{
 		bpmChangeMap = [];
@@ -110,17 +123,24 @@ class Conductor
 				var event:BPMChangeEvent = {
 					stepTime: totalSteps,
 					songTime: totalPos,
-					bpm: curBPM,
-					stepCrochet: calculateCrochet(curBPM)/4
+					bpm: curBPM
 				};
 				bpmChangeMap.push(event);
 			}
 
-			var deltaSteps:Int = Math.round(getSectionBeats(song, i) * 4);
+			var deltaSteps:Int = song.notes[i].lengthInSteps;
 			totalSteps += deltaSteps;
 			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
 		}
 		trace("new BPM map BUDDY " + bpmChangeMap);
+	}
+
+	public static function changeBPM(newBpm:Float)
+	{
+		bpm = newBpm;
+
+		crochet = ((60 / bpm) * 1000);
+		stepCrochet = crochet / 4;
 	}
 
 	static function getSectionBeats(song:SwagSong, section:Int)

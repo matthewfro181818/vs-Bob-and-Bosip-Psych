@@ -52,6 +52,12 @@ class FreeplayState extends MusicBeatState
 
 	var player:MusicPlayer;
 
+	public static var bpm:Float = 0;
+	public static var curSong:String;
+	public static var isEX:Bool;
+
+	var songsUnlocked:Array<Bool> = [];
+
 	override function create()
 	{
 		//Paths.clearStoredMemory();
@@ -539,6 +545,26 @@ class FreeplayState extends MusicBeatState
 			}
 		}
 		
+		if (curDifficulty == 3 && FlxG.save.data.unlockedEX == true) {
+			if (songsUnlocked[curSelected] == true) {
+				FlxG.sound.playMusic(Paths.instEX(songs[curSelected].songName), 0);
+				isEX = true;
+				curSong = songs[curSelected].songName;
+				var daJson = Song.loadFromJson(songs[curSelected].songName.toLowerCase() + '-ex', songs[curSelected].songName.toLowerCase());
+				bpm = daJson.bpm;
+				Conductor.changeBPM(daJson.bpm);
+			}
+		} else if (curDifficulty != 3) {
+			if (songsUnlocked[curSelected] == true) {
+				isEX = false;
+				FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+				curSong = songs[curSelected].songName;
+				var daJson = Song.loadFromJson(songs[curSelected].songName.toLowerCase() + '-hard', songs[curSelected].songName.toLowerCase());
+				bpm = daJson.bpm;
+				Conductor.changeBPM(daJson.bpm);
+			}
+		}
+
 		Mods.currentModDirectory = songs[curSelected].folder;
 		PlayState.storyWeek = songs[curSelected].week;
 		Difficulty.loadFromWeek();

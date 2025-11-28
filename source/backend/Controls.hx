@@ -164,3 +164,15 @@ class Controls
 		gamepadBinds = ClientPrefs.gamepadBinds;
 	}
 }
+
+enum Control
+{
+	UP;
+	LEFT;
+	RIGHT;
+	DOWN;
+	RESET;
+	ACCEPT;
+	BACK;
+	PAUSE;
+}

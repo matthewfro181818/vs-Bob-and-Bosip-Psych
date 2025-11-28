@@ -2089,7 +2089,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 					bpm: bpm,
 					changeBPM: changeBpmSec,
 					altAnim: altAnimSec,
-					gfSection: gfSec
+					gfSection: gfSec,
+                                        lengthInSteps: 0
 				});
 
 				cachedSectionRow.push(row);

@@ -30,7 +30,18 @@ class CoolUtil
 			http.request();
 		}
 		return version;
-	}
+	}	
+        public static function preloadfile(path:String):Array<String>
+		{
+			var daList:Array<String> = File.getContent(path).trim().split('\n');
+	
+			for (i in 0...daList.length)
+			{
+				daList[i] = daList[i].trim();
+			}
+	
+			return daList;
+		}
 	inline public static function quantize(f:Float, snap:Float){
 		// changed so this actually works lol
 		var m:Float = Math.fround(f * snap);
