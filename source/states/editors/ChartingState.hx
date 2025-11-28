@@ -3186,7 +3186,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var playerDropDown:PsychUIDropDownMenu;
 	var opponentDropDown:PsychUIDropDownMenu;
 	var girlfriendDropDown:PsychUIDropDownMenu;
-	
+
 	function addSongTab()
 	{
 		var tab_group = mainBox.getTab('Song').menu;
@@ -3285,6 +3285,12 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 			trace('selected $stage');
 		});
 		
+		noteStyleDropDown = new PsychUIDropDownMenu(objX, objY, [''], function(id:Int, noteStyle:String)
+		{
+			PlayState.SONG.noteStyle = _song.noteStyle;;
+			trace('selected $noteStyle');
+		});
+
 		opponentDropDown = new PsychUIDropDownMenu(objX, objY + 40, [''], function(id:Int, character:String)
 		{
 			PlayState.SONG.player2 = character;
@@ -3308,8 +3314,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(audioOffsetStepper);
 
 		//dropdowns
-		tab_group.add(noteStyleDropDown);
-		tab_group.add(noteStyleLabel);
+		tab_group.add(new FlxText(noteStyleDropDown.x, noteStyleDropDown.y - 15, 80 'Note Skin'));
 		tab_group.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 80, 'Stage:'));
 		tab_group.add(new FlxText(playerDropDown.x, playerDropDown.y - 15, 80, 'Player:'));
 		tab_group.add(new FlxText(opponentDropDown.x, opponentDropDown.y - 15, 80, 'Opponent:'));
@@ -5306,4 +5311,5 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		#end
 	}
 }
+
 
