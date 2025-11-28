@@ -17,6 +17,7 @@ import flixel.animation.FlxAnimationController;
 import flixel.addons.effects.FlxTrail;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
+import flixel.math.FlxRandom;
 import lime.utils.Assets;
 import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
@@ -3030,7 +3031,7 @@ class PlayState extends MusicBeatState {
 				dying.y -= 100;
 				dying.x -= 100;
 				add(dying);
-				FlxG.sound.play(Paths.sound('voiceline/mike_died', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/mike_died'), 1);
 				/*new FlxTimer().start(5, function(tmr:FlxTimer)
 					{
 						if (PlayState.desktopMode)
@@ -3041,13 +3042,13 @@ class PlayState extends MusicBeatState {
 			case 'sunset':
 				var gud:FlxSprite = new FlxSprite(dad.x, dad.y);
 				gud.antialiasing = true;
-				gud.frames = Paths.getSparrowAtlas('sunset/ThumbupBosip', 'shared');
+				gud.frames = Paths.getSparrowAtlas('sunset/ThumbupBosip');
 				gud.animation.addByPrefix('idle', 'Bullshit0', 24, false);
 				gud.animation.play('idle');
 				gud.y -= 300;
 				gud.x -= 200;
 				gud.scale.set(0.6,0.6);
-				FlxG.sound.play(Paths.sound('voiceline/bosip_good_job', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/bosip_good_job'), 1);
 				add(gud);
 				/*new FlxTimer().start(8, function(tmr:FlxTimer)
 					{
@@ -3063,7 +3064,7 @@ class PlayState extends MusicBeatState {
 				ded.frames = Paths.getSparrowAtlas('night/amor_falling_lol', 'shared');
 				ded.animation.addByPrefix('idle', 'amor_falling_lol instance 1', 24, false);
 				ded.animation.play('idle');
-				FlxG.sound.play(Paths.sound('voiceline/carPass1', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/carPass1'), 1);
 				ded.y -= 100;
 				ded.x -= 100;
 				add(ded);
@@ -3074,7 +3075,7 @@ class PlayState extends MusicBeatState {
 				bird.frames = Paths.getSparrowAtlas('ITB/party/bluEX_ENDING', 'shared');
 				bird.animation.addByPrefix('idle', 'bluEX_ending', 24, false);
 				bird.animation.play('idle');
-				FlxG.sound.play(Paths.sound('voiceline/blu_ending_animation', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/blu_ending_animation'), 1);
 				add(bird);
 				/*new FlxTimer().start(3, function(tmr:FlxTimer)
 					{
@@ -3092,7 +3093,7 @@ class PlayState extends MusicBeatState {
 				dog.frames = Paths.getSparrowAtlas('ITB/hell/Jghostending', 'shared');
 				dog.animation.addByPrefix('idle', 'Jghostending', 24, false);
 				dog.animation.play('idle');
-				FlxG.sound.play(Paths.sound('voiceline/Youdidfine', 'shared'), 0.7);
+				FlxG.sound.play(Paths.sound('voiceline/Youdidfine'), 0.7);
 				dog.x -= 100;
 				add(dog);
 				/*new FlxTimer().start(3, function(tmr:FlxTimer)
@@ -3109,7 +3110,7 @@ class PlayState extends MusicBeatState {
 				maid.frames = Paths.getSparrowAtlas('ITB/anime/MiniEndingAnim', 'shared');
 				maid.animation.addByPrefix('idle', 'Mini-ending0', 24, false);
 				maid.animation.play('idle');
-				FlxG.sound.play(Paths.sound('voiceline/mini_clapping', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/mini_clapping'), 1);
 				//maid.y += 100;
 				add(maid);
 				/*new FlxTimer().start(8, function(tmr:FlxTimer)
@@ -3130,7 +3131,7 @@ class PlayState extends MusicBeatState {
 				
 				angi.animation.addByIndices('yell', 'IntertwinedEX_ENDING0', [26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46], "", 24, true);
 				angi.animation.addByIndices('idle', 'IntertwinedEX_ENDING0', [0], "", 24, false);
-				FlxG.sound.play(Paths.sound('voiceline/ash_cerb', 'shared'), 1);
+				FlxG.sound.play(Paths.sound('voiceline/ash_cerb'), 1);
 
 				add(angi);
 				angi.animation.play('idle');
@@ -7266,6 +7267,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
