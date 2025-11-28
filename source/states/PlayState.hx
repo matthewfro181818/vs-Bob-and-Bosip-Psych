@@ -3158,7 +3158,7 @@ class PlayState extends MusicBeatState {
 				for (songNotes in sectionsData) {
 					var gottaHitNote:Bool = section.mustHitSection;
 
-					var swagNote:Note = new Note(daStrumTime, false, daType);
+			    	var swagNote:Note;
 					dad2Notes.add(swagNote);
 				}
 			}
@@ -3207,10 +3207,10 @@ class PlayState extends MusicBeatState {
 				for (susNote in 0...Math.floor(susLength)) {
 					var sustainNote:Note;
 					if (gottaHitNote) {
-						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
+						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daType,
 							boyfriend.noteSkin);
 					} else {
-						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
+						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daType,
 							dad.noteSkin);
 					}
 					sustainNote.scrollFactor.set();
@@ -6543,6 +6543,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
