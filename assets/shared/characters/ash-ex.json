@@ -1,0 +1,55 @@
+{
+    "image": "characters/extra/ASHEX",
+    "scale": 1,
+    "sing_duration": 4,
+    "healthicon": "ash-ex",
+    "position": [
+        0,
+        350
+    ],
+    "camera_position": [
+        0,
+        0
+    ],
+    "flip_x": false,
+    "healthbar_colors": [
+        255,
+        255,
+        255
+    ],
+    "animations": [
+        {
+            "anim": "danceLeft",
+            "name": "ASH idle dance",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                0
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceRight",
+            "name": "ASH idle dance",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                0
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceRightStatic",
+            "name": "ASH idle dance",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                0
+            ],
+            "indices": []
+        }
+    ]
+}

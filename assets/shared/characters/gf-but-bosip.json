@@ -1,8 +1,8 @@
 {
-    "image": "characters/BOYFRIEND",
+    "image": "characters/extra/worriedbosip",
     "scale": 1,
     "sing_duration": 4,
-    "healthicon": "bf",
+    "healthicon": "gf-but-bosip",
     "position": [
         0,
         350

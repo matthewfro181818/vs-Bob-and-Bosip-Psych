@@ -1,8 +1,8 @@
 {
-    "image": "characters/BOYFRIEND",
+    "image": "characters/extra/stupid_dumb_ex",
     "scale": 1,
     "sing_duration": 4,
-    "healthicon": "bf",
+    "healthicon": "ronsip-ex",
     "position": [
         0,
         350

@@ -1,8 +1,8 @@
 {
-    "image": "characters/BOYFRIEND",
+    "image": "characters/extra/Bob_expurgation",
     "scale": 1,
     "sing_duration": 4,
-    "healthicon": "bf",
+    "healthicon": "boki",
     "position": [
         0,
         350

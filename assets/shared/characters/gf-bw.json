@@ -1,0 +1,55 @@
+{
+    "image": "characters/extra/GF_ass_sets_outfit-NoColor",
+    "scale": 1,
+    "sing_duration": 4,
+    "healthicon": "gf-bw",
+    "position": [
+        0,
+        350
+    ],
+    "camera_position": [
+        0,
+        0
+    ],
+    "flip_x": false,
+    "healthbar_colors": [
+        255,
+        255,
+        255
+    ],
+    "animations": [
+        {
+            "anim": "sad",
+            "name": "gf sad",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                -2,
+                -21
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceLeft",
+            "name": "GF Dancing Beat",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                -9
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceRight",
+            "name": "GF Dancing Beat",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                -9
+            ],
+            "indices": []
+        }
+    ]
+}

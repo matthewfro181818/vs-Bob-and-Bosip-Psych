@@ -1,8 +1,8 @@
 {
-    "image": "characters/BOYFRIEND",
+    "image": "characters/senpai",
     "scale": 1,
     "sing_duration": 4,
-    "healthicon": "bf",
+    "healthicon": "senpai-angry",
     "position": [
         0,
         350

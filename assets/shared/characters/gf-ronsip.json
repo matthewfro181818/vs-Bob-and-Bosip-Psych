@@ -1,0 +1,55 @@
+{
+    "image": "characters/extra/GF_ANDRONCOOLGUYONSPEAKEROHMYGODHEISSOCOOL",
+    "scale": 1,
+    "sing_duration": 4,
+    "healthicon": "gf-ronsip",
+    "position": [
+        0,
+        350
+    ],
+    "camera_position": [
+        0,
+        0
+    ],
+    "flip_x": false,
+    "healthbar_colors": [
+        255,
+        255,
+        255
+    ],
+    "animations": [
+        {
+            "anim": "sad",
+            "name": "gf sad",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                -559,
+                -715
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceLeft",
+            "name": "GF Dancing Beat",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                0
+            ],
+            "indices": []
+        },
+        {
+            "anim": "danceRight",
+            "name": "GF Dancing Beat",
+            "fps": 24,
+            "loop": false,
+            "offsets": [
+                0,
+                0
+            ],
+            "indices": []
+        }
+    ]
+}

@@ -1,8 +1,8 @@
 {
-    "image": "characters/BOYFRIEND",
+    "image": "characters/extra/bosip_assets",
     "scale": 1,
     "sing_duration": 4,
-    "healthicon": "bf",
+    "healthicon": "bosip",
     "position": [
         0,
         350
