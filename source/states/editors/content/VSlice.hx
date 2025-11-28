@@ -252,6 +252,7 @@ class VSlice
 				events: [],
 				bpm: songBpm,
 				needsVoices: true, //There's no value on V-Slice to identify if there are vocals as it checks automatically
+		    	noteStyle: 'normal',
 				speed: scrollSpeed,
 				offset: 0,
 			
@@ -470,3 +471,4 @@ class VSlice
 	static function sortByTime(Obj1:Dynamic, Obj2:Dynamic):Int
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.t, Obj2.t);
 }
+
