@@ -191,6 +191,11 @@ class PlayState extends MusicBeatState {
 
 	public var dialogue:Array<String> = ['dad:blah blah blah', 'bf:coolswag'];
 
+	public static var effectSONG:SwagSong;
+	private var effectNotes:FlxTypedGroup<Note>;
+
+	public static var dad2SONG:SwagSong;
+	private var dad2Notes:FlxTypedGroup<Note>;
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -3139,12 +3144,15 @@ class PlayState extends MusicBeatState {
 				}
 		}*/
 		#end
+
+		var sectionsData:Array<SwagSection> = PlayState.SONG.notes;
+
 		if (hasDad2 && usesDad2Chart) {
 			var dad2NoteData = dad2SONG.notes;
 			dad2Notes = new FlxTypedGroup<Note>();
 			for (section in dad2NoteData) {
 				var coolSection:Int = Std.int(section.lengthInSteps / 4);
-				for (songNotes in section.sectionNotes) {
+				for (songNotes in sectionsData) {
 					var daStrumTime:Float = songNotes[0];
 					if (daStrumTime < 0)
 						daStrumTime = 0;
@@ -3296,6 +3304,11 @@ class PlayState extends MusicBeatState {
 		secondaryVocals = new FlxSound();
 		vocals = new FlxSound();
 		opponentVocals = new FlxSound();
+	}
+
+	function sortByShit(Obj1:Note, Obj2:Note):Int
+	{
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
 	function loadEXVocals(songName:String):Void {
@@ -6568,4 +6581,5 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
