@@ -196,6 +196,11 @@ class PlayState extends MusicBeatState {
 
 	public static var dad2SONG:SwagSong;
 	private var dad2Notes:FlxTypedGroup<Note>;
+	
+	var daStrumTime:Float = 0;
+
+	var oldNote:Note;
+	
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -6560,6 +6565,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
