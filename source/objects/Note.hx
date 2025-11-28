@@ -148,6 +148,8 @@ class Note extends FlxSprite
 	}
 	public var hitsound:String = 'hitsound';
 
+	public var noteType:String = 'normal';
+
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
@@ -233,7 +235,7 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null, ?noteType:String = 'normal', ?noteSkin:String = 'normal')
 	{
 		super();
 
@@ -246,6 +248,7 @@ class Note extends FlxSprite
 			prevNote = this;
 
 		this.prevNote = prevNote;
+		this.noteType = noteType;
 		isSustainNote = sustainNote;
 		this.inEditor = inEditor;
 		this.moves = false;
@@ -277,6 +280,110 @@ class Note extends FlxSprite
 		if(prevNote != null)
 			prevNote.nextNote = this;
 
+		switch (PlayState.SONG.noteStyle)
+		{
+			case 'pixel':
+				loadGraphic(Paths.image('weeb/pixelUI/arrows-pixels','week6'), true, 17, 17);
+
+				animation.add('greenScroll', [6]);
+				animation.add('redScroll', [7]);
+				animation.add('blueScroll', [5]);
+				animation.add('purpleScroll', [4]);
+
+				if (isSustainNote)
+				{
+					loadGraphic(Paths.image('weeb/pixelUI/arrowEnds','week6'), true, 7, 6);
+
+					animation.add('purpleholdend', [4]);
+					animation.add('greenholdend', [6]);
+					animation.add('redholdend', [7]);
+					animation.add('blueholdend', [5]);
+
+					animation.add('purplehold', [0]);
+					animation.add('greenhold', [2]);
+					animation.add('redhold', [3]);
+					animation.add('bluehold', [1]);
+				}
+
+				setGraphicSize(Std.int(width * PlayState.daPixelZoom));
+				updateHitbox();
+			default:
+				switch (noteType) {
+					case 'drop' | 'are' | 'you' | 'ready' | 'kill':
+						frames = Paths.getSparrowAtlas('indicators', 'shared');
+					case 'duet':
+						if (noteData == 1 || noteData == 3)
+							frames = Paths.getSparrowAtlas('notes/cerbera', 'shared');
+						else
+							frames = Paths.getSparrowAtlas('notes/' + noteSkin, 'shared');
+					case 'cerb':
+							frames = Paths.getSparrowAtlas('notes/cerbera', 'shared');
+					default:
+						frames = Paths.getSparrowAtlas('notes/' + noteSkin, 'shared');
+				}
+
+				animation.addByPrefix('arrowUP', 'arrowUP0');
+				animation.addByPrefix('arrowDOWN', 'arrowDOWN0');
+				animation.addByPrefix('arrowLEFT', 'arrowLEFT0');
+				animation.addByPrefix('arrowRIGHT', 'arrowRIGHT0');
+
+				animation.addByPrefix('greenScroll', 'green0');
+				animation.addByPrefix('redScroll', 'red0');
+				animation.addByPrefix('blueScroll', 'blue0');
+				animation.addByPrefix('purpleScroll', 'purple0');
+
+				animation.addByPrefix('purpleholdend', 'pruple end hold');
+				animation.addByPrefix('greenholdend', 'green hold end');
+				animation.addByPrefix('redholdend', 'red hold end');
+				animation.addByPrefix('blueholdend', 'blue hold end');
+
+				animation.addByPrefix('purplehold', 'purple hold piece');
+				animation.addByPrefix('greenhold', 'green hold piece');
+				animation.addByPrefix('redhold', 'red hold piece');
+				animation.addByPrefix('bluehold', 'blue hold piece');
+
+				setGraphicSize(Std.int(width * 0.7));
+				updateHitbox();
+				antialiasing = true;
+		}
+
+		switch (noteType) {
+			case 'drop':
+				animation.play('greenScroll');
+			case 'are':
+				animation.play('redScroll');
+			case 'you':
+				animation.play('purpleScroll');
+			case 'ready':
+				animation.play('blueScroll');
+			case 'kill':
+				animation.play('arrowUP');
+			case '4':
+				animation.play('arrowDOWN');
+			case '5':
+				animation.play('arrowLEFT');
+			case '6':
+				animation.play('arrowRIGHT');
+			case '7':
+				animation.play('purplehold');
+			default:
+				switch (noteData)
+				{
+					case 0:
+						x += swagWidth * 0;
+						animation.play('purpleScroll');
+					case 1:
+						x += swagWidth * 1;
+						animation.play('blueScroll');
+					case 2:
+						x += swagWidth * 2;
+						animation.play('greenScroll');
+					case 3:
+						x += swagWidth * 3;
+						animation.play('redScroll');
+				}
+		}
+
 		if (isSustainNote && prevNote != null)
 		{
 			alpha = 0.6;
@@ -286,6 +393,18 @@ class Note extends FlxSprite
 
 			offsetX += width / 2;
 			copyAngle = false;
+
+			switch (noteData)
+			{
+				case 2:
+					animation.play('greenholdend');
+				case 3:
+					animation.play('redholdend');
+				case 1:
+					animation.play('blueholdend');
+				case 0:
+					animation.play('purpleholdend');
+			}
 
 			animation.play(colArray[noteData % colArray.length] + 'holdend');
 
@@ -324,6 +443,56 @@ class Note extends FlxSprite
 			centerOrigin();
 		}
 		x += offsetX;
+		
+		if (isSustainNote && prevNote != null)
+		{
+			noteScore * 0.2;
+			alpha = 0.6;
+
+			x += width / 2;
+
+			switch (noteData)
+			{
+				case 2:
+					animation.play('greenholdend');
+				case 3:
+					animation.play('redholdend');
+				case 1:
+					animation.play('blueholdend');
+				case 0:
+					animation.play('purpleholdend');
+			}
+
+			updateHitbox();
+
+			x -= width / 2;
+
+			if (PlayState.curStage.startsWith('school'))
+				x += 30;
+
+			if (prevNote.isSustainNote)
+			{
+				switch (prevNote.noteData)
+				{
+					case 0:
+						prevNote.animation.play('purplehold');
+					case 1:
+						prevNote.animation.play('bluehold');
+					case 2:
+						prevNote.animation.play('greenhold');
+					case 3:
+						prevNote.animation.play('redhold');
+				}
+
+
+				if(FlxG.save.data.scrollSpeed != 1)
+					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * FlxG.save.data.scrollSpeed;
+				else
+					prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * PlayState.SONG.speed;
+				prevNote.updateHitbox();
+				// prevNote.setGraphicSize();
+			}
+		}
 	}
 
 	public static function initializeGlobalRGBShader(noteData:Int)
