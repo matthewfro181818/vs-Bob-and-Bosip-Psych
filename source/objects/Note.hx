@@ -148,8 +148,6 @@ class Note extends FlxSprite
 	}
 	public var hitsound:String = 'hitsound';
 
-	public var noteType:String = 'normal';
-
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
@@ -446,7 +444,6 @@ class Note extends FlxSprite
 		
 		if (isSustainNote && prevNote != null)
 		{
-			noteScore * 0.2;
 			alpha = 0.6;
 
 			x += width / 2;
