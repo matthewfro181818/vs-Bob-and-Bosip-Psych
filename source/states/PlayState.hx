@@ -199,8 +199,6 @@ class PlayState extends MusicBeatState {
 	
 	var daStrumTime:Float = 0;
 
-	var oldNote:Note;
-	
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -3159,10 +3157,6 @@ class PlayState extends MusicBeatState {
 				var coolSection:Int = Std.int(section.lengthInSteps / 4);
 				for (songNotes in sectionsData) {
 					var gottaHitNote:Bool = section.mustHitSection;
-					if (dad2Notes.members.length > 0)
-						oldNote = dad2Notes.members[Std.int(dad2Notes.members.length - 1)];
-					else
-						oldNote = null;
 
 					var swagNote:Note = new Note(daStrumTime, false, daType);
 					dad2Notes.add(swagNote);
@@ -3184,12 +3178,7 @@ class PlayState extends MusicBeatState {
 						gottaHitNote = !section.mustHitSection;
 					}
 
-					if (effectNotes.members.length > 0)
-						oldNote = effectNotes.members[Std.int(effectNotes.members.length - 1)];
-					else
-						oldNote = null;
-
-					var swagNote:Note = new Note(daNoteData, false, daType);
+			    	var swagNote:Note;
 					swagNote.sustainLength = songNotes[2];
 					effectNotes.add(swagNote);
 				}
@@ -3205,18 +3194,8 @@ class PlayState extends MusicBeatState {
 				if (songNotes[1] > 3) {
 					gottaHitNote = !section.mustHitSection;
 				}
-
-				if (unspawnNotes.length > 0)
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
-				else
-					oldNote = null;
 				var daType = songNotes[3];
 				var swagNote:Note;
-				if (gottaHitNote) {
-					swagNote = new Note(oldNote, false, daType, boyfriend.noteSkin);
-				} else {
-					swagNote = new Note(oldNote, false, daType, dad.noteSkin);
-				}
 				swagNote.sustainLength = songNotes[2];
 				swagNote.scrollFactor.set(0, 0);
 
@@ -3226,13 +3205,12 @@ class PlayState extends MusicBeatState {
 				unspawnNotes.push(swagNote);
 
 				for (susNote in 0...Math.floor(susLength)) {
-					oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 					var sustainNote:Note;
 					if (gottaHitNote) {
-						sustainNote = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
+						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
 							boyfriend.noteSkin);
 					} else {
-						sustainNote = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
+						sustainNote = new Note((Conductor.stepCrochet * susNote) + Conductor.stepCrochet, true, daType,
 							dad.noteSkin);
 					}
 					sustainNote.scrollFactor.set();
@@ -6565,6 +6543,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
