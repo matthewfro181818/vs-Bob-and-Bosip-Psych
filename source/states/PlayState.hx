@@ -3159,7 +3159,6 @@ class PlayState extends MusicBeatState {
 					var gottaHitNote:Bool = section.mustHitSection;
 
 			    	var swagNote:Note;
-					dad2Notes.add(swagNote);
 				}
 			}
 		}
@@ -6543,6 +6542,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
