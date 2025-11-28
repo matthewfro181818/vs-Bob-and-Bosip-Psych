@@ -3282,14 +3282,6 @@ class PlayState extends MusicBeatState {
 				
 				var oppVocals = Paths.voices(songData.song, (dad.vocalsFile == null || dad.vocalsFile.length < 1) ? 'Opponent' : dad.vocalsFile);
 				if(oppVocals != null && oppVocals.length > 0) opponentVocals.loadEmbedded(oppVocals);
-				if (storyDifficulty == 3) {
-
-				vocals = new FlxSound().loadEmbedded(Paths.voicesEX(PlayState.SONG.song));
-				if (SONG.player2 == 'bob' && SONG.song.toLowerCase() == 'swing' || SONG.player2 == 'bob-ex' && SONG.song.toLowerCase() == 'swing') {
-					secondaryVocals = new FlxSound().loadEmbedded(Paths.voicesEXcharacter(PlayState.SONG.song, 'bob'));
-					vocals = new FlxSound().loadEmbedded(Paths.voicesEXcharacter(PlayState.SONG.song, 'bf'));
-				} else
-					secondaryVocals = new FlxSound();
 			}
 		}
 		catch (e:Dynamic) {}
@@ -7268,6 +7260,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
