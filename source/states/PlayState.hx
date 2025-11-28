@@ -20,7 +20,7 @@ import openfl.utils.Assets as OpenFlAssets;
 import openfl.events.KeyboardEvent;
 import haxe.Json;
 import cutscenes.DialogueBoxPsych;
-df import states.StoryMenuState;
+import states.StoryMenuState;
 import states.FreeplayState;
 import states.editors.ChartingState;
 import states.editors.CharacterEditorState;
@@ -6716,3 +6716,4 @@ function back(characters:String):Void {
 	}
 }
 }
+
