@@ -3310,7 +3310,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		tab_group.add(audioOffsetStepper);
 
 		//dropdowns
-		tab_group.add(new FlxText(noteStyleDropDown.x, noteStyleDropDown.y - 15, 80 'Note Skin'));
+		tab_group.add(new FlxText(noteStyleDropDown.x, noteStyleDropDown.y - 15, 80, 'Note Skin'));
 		tab_group.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 80, 'Stage:'));
 		tab_group.add(new FlxText(playerDropDown.x, playerDropDown.y - 15, 80, 'Player:'));
 		tab_group.add(new FlxText(opponentDropDown.x, opponentDropDown.y - 15, 80, 'Opponent:'));
@@ -5307,6 +5307,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		#end
 	}
 }
+
 
 
 
