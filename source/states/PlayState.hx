@@ -3253,45 +3253,61 @@ class PlayState extends MusicBeatState {
 	private var eventsPushed:Array<String> = [];
 	private var totalColumns:Int = 4;
 
-	private function generateSong():Void {
+	private function generateSong():Void
+	{
 		// FlxG.log.add(ChartParser.parse());
 		songSpeed = PlayState.SONG.speed;
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype');
-		switch (songSpeedType) {
+		switch(songSpeedType)
+		{
 			case "multiplicative":
 				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
 			case "constant":
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
 		}
 
-		// FlxG.log.add(ChartParser.parse());
-
 		var songData = SONG;
-		Conductor.changeBPM(songData.bpm);
+		Conductor.bpm = songData.bpm;
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
-			if (storyDifficulty == 3) {
+		vocals = new FlxSound();
+		opponentVocals = new FlxSound();
+		try
+		{
+			if (songData.needsVoices)
+			{
+				var playerVocals = Paths.voices(songData.song, (boyfriend.vocalsFile == null || boyfriend.vocalsFile.length < 1) ? 'Player' : boyfriend.vocalsFile);
+				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
+				
+				var oppVocals = Paths.voices(songData.song, (dad.vocalsFile == null || dad.vocalsFile.length < 1) ? 'Opponent' : dad.vocalsFile);
+				if(oppVocals != null && oppVocals.length > 0) opponentVocals.loadEmbedded(oppVocals);
+				if (storyDifficulty == 3) {
+
 				vocals = new FlxSound().loadEmbedded(Paths.voicesEX(PlayState.SONG.song));
 				if (SONG.player2 == 'bob' && SONG.song.toLowerCase() == 'swing' || SONG.player2 == 'bob-ex' && SONG.song.toLowerCase() == 'swing') {
 					secondaryVocals = new FlxSound().loadEmbedded(Paths.voicesEXcharacter(PlayState.SONG.song, 'bob'));
 					vocals = new FlxSound().loadEmbedded(Paths.voicesEXcharacter(PlayState.SONG.song, 'bf'));
 				} else
 					secondaryVocals = new FlxSound();
-			} else {
-				vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-				secondaryVocals = new FlxSound();
 			}
-		else {
-			vocals = new FlxSound();
-			secondaryVocals = new FlxSound();
 		}
-		secondaryVocals.volume = 1;
-		trace('loaded vocals');
+		catch (e:Dynamic) {}
 
+		#if FLX_PITCH
+		vocals.pitch = playbackRate;
+		opponentVocals.pitch = playbackRate;
+		#end
 		FlxG.sound.list.add(vocals);
-		FlxG.sound.list.add(secondaryVocals);
+		FlxG.sound.list.add(opponentVocals);
+
+		inst = new FlxSound();
+		try
+		{
+			inst.loadEmbedded(Paths.inst(songData.song));
+		}
+		catch (e:Dynamic) {}
+		FlxG.sound.list.add(inst);
 
 		notes = new FlxTypedGroup<Note>();
 		noteGroup.add(notes);
@@ -3430,21 +3446,6 @@ class PlayState extends MusicBeatState {
 
 		unspawnNotes.sort(sortByTime);
 		generatedMusic = true;
-
-		Conductor.bpm = songData.bpm;
-		curSong = songData.song;
-		if (secondaryVocals != null) {
-			secondaryVocals.destroy();
-		}
-		if (vocals != null) {
-			vocals.destroy();
-		}
-		if (opponentVocals != null) {
-			opponentVocals.destroy();
-		}
-		secondaryVocals = new FlxSound();
-		vocals = new FlxSound();
-		opponentVocals = new FlxSound();
 	}
 
 	function sortByShit(Obj1:Note, Obj2:Note):Int
@@ -7267,6 +7268,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
