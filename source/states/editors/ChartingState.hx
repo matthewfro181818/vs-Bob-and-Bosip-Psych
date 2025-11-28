@@ -644,12 +644,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		girlfriendDropDown.selectedLabel = PlayState.SONG.gfVersion;
 		stageDropDown.selectedLabel = PlayState.SONG.stage;
 		StageData.loadDirectory(PlayState.SONG);
-		
-		var noteStyleDropDown = new FlxUIDropDownMenu(10, 300, FlxUIDropDownMenu.makeStrIdLabelArray(noteStyles, true), function(noteStyle:String)
-			{
-				_song.noteStyle = noteStyles[Std.parseInt(noteStyle)];
-			});
-		noteStyleDropDown.selectedLabel = _song.noteStyle;
 
 		// DATA TAB
 		gameOverCharDropDown.selectedLabel = PlayState.SONG.gameOverChar;
@@ -3187,6 +3181,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 	var opponentDropDown:PsychUIDropDownMenu;
 	var girlfriendDropDown:PsychUIDropDownMenu;
 
+	var noteStyleDropDown:PsychUIDropDownMenu;
+
 	function addSongTab()
 	{
 		var tab_group = mainBox.getTab('Song').menu;
@@ -3287,7 +3283,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		
 		noteStyleDropDown = new PsychUIDropDownMenu(objX, objY, [''], function(id:Int, noteStyle:String)
 		{
-			PlayState.SONG.noteStyle = _song.noteStyle;;
+			PlayState.SONG.noteStyle = noteStyle;
 			trace('selected $noteStyle');
 		});
 
@@ -5311,5 +5307,6 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		#end
 	}
 }
+
 
 
