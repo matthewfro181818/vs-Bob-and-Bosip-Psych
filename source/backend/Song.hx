@@ -21,6 +21,8 @@ typedef SwagSong =
 	var stage:String;
 	var format:String;
 
+	var noteStyle:String;
+
 	@:optional var gameOverChar:String;
 	@:optional var gameOverSound:String;
 	@:optional var gameOverLoop:String;
@@ -34,7 +36,7 @@ typedef SwagSong =
 
 typedef SwagSection =
 {
-        var lengthInSteps:Int;
+    var lengthInSteps:Int;
 	var sectionNotes:Array<Dynamic>;
 	var sectionBeats:Float;
 	var mustHitSection:Bool;
