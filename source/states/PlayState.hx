@@ -3178,7 +3178,6 @@ class PlayState extends MusicBeatState {
 					}
 
 			    	var swagNote:Note;
-					swagNote.sustainLength = songNotes[2];
 					effectNotes.add(swagNote);
 				}
 			}
@@ -6542,6 +6541,7 @@ function back(characters:String):Void {
 	}
 }
 }
+
 
 
 
